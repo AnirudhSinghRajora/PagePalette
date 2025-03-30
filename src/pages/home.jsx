@@ -136,6 +136,7 @@ const Home = () => {
       className="bg-white border-gray-200 dark:bg-teal-950 dark:text-white m-0"
       // style={{ height: "100vh" }}
     >
+    {selections.length>0 && (
       <div className="p-6 mx-6 rounded-xl flex justify-between bg-yellow-50 dark:bg-teal-900 ">
         <div className="mx-6">{selections[selections.length - 1]?.text}</div>
         <button
@@ -148,7 +149,7 @@ const Home = () => {
           <img src={close} class="size-11" alt="PagePallete Logo" />
         </button>
       </div>
-
+    )}
       <div style={{ height: "80vh" }} className="m-6">
         <ReactReader
           url= {epubs[bookno]} // "https://react-reader.metabits.no/files/alice.epub"
