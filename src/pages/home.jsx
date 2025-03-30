@@ -124,13 +124,11 @@ const Home = () => {
         />
       </div>
       <div className="m-6 flex flex-wrap justify-around pb-16">
-        {/* <button className="px-6 m-2 py-3 bg-yellow-600 dark:bg-teal-700 hover:bg-slate-800 hover:dark:bg-teal-800 rounded text-white">
-          choose model
-        </button> */}
+        {/* Model Selection Dropdown - Improved Styling */}
         <div className="relative">
           <button
             id="dropdownDefaultButton"
-            className="text-white px-6 m-2 py-3 bg-yellow-600 dark:bg-teal-700 hover:bg-slate-800 hover:dark:bg-teal-800 rounded  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-sm text-center inline-flex items-center "
+            className="text-white px-6 m-2 py-3 bg-teal-700 hover:bg-teal-800 rounded-lg font-medium text-sm text-center inline-flex items-center border border-teal-600"
             type="button"
             onClick={() => {
               ToggleDropDown(!dropdown);
@@ -156,12 +154,12 @@ const Home = () => {
           </button>
 
           <div
-            className={`z-10 absolute ${
+            className={`z-10 absolute mt-1 ${
               dropdown || "hidden"
-            } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700`}
+            } bg-teal-900 rounded-lg shadow-lg w-60 border border-teal-800`}
           >
             <ul
-              className="py-2 text-sm text-gray-700 dark:text-gray-200"
+              className="py-1 text-sm text-white"
               aria-labelledby="dropdownDefaultButton"
             >
               {models.map((item, index) => {
@@ -172,9 +170,10 @@ const Home = () => {
                         console.log(index)
                         setmodelno(index);
                         ToggleDropDown((dropdown) => !dropdown);
-
                       }}
-                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                      className={`block w-full text-left px-4 py-3 hover:bg-teal-800 ${
+                        modelno === index ? "bg-teal-800" : ""
+                      }`}
                     >
                       {item.split('/')[1]}
                     </button>
@@ -185,19 +184,19 @@ const Home = () => {
           </div>
         </div>
         <button
-          className="px-6 m-2 py-3 bg-yellow-600 dark:bg-teal-700 hover:bg-slate-800 hover:dark:bg-teal-800 rounded text-white"
+          className={`px-6 m-2 py-3 ${
+            sendDisabled ? "bg-gray-600 cursor-not-allowed" : "bg-teal-700 hover:bg-teal-800"
+          } rounded-lg text-white border border-teal-600`}
           onClick={() => setSend((send) => !send)}
           disabled={sendDisabled}
         >
           send
         </button>
-        {/* <button className="px-6 m-2 py-3 bg-yellow-600 dark:bg-teal-700 hover:bg-slate-800 hover:dark:bg-teal-800 rounded text-white">
-          choose epub
-        </button> */}
+        {/* Book Selection Dropdown - Improved Styling */}
         <div className="relative max-w-96">
           <button
             id="dropdownDefaultButton"
-            className="text-white px-6 m-2 py-3 bg-yellow-600 dark:bg-teal-700 hover:bg-slate-800 hover:dark:bg-teal-800 rounded  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-sm text-center inline-flex items-center "
+            className="text-white px-6 m-2 py-3 bg-teal-700 hover:bg-teal-800 rounded-lg font-medium text-sm text-center inline-flex items-center border border-teal-600"
             type="button"
             onClick={() => {
               ToggleDropDown2(!dropdown2);
@@ -224,12 +223,12 @@ const Home = () => {
           </button>
 
           <div
-            className={`z-10 absolute ${
+            className={`z-10 absolute mt-1 ${
               dropdown2 || "hidden"
-            } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700`}
+            } bg-teal-900 rounded-lg shadow-lg w-60 border border-teal-800`}
           >
             <ul
-              className="py-2 text-sm text-gray-700 dark:text-gray-200"
+              className="py-1 text-sm text-white"
               aria-labelledby="dropdownDefaultButton"
             >
               {epubs.map((item, index) => {
@@ -241,7 +240,9 @@ const Home = () => {
                         setbookno(index);
                         ToggleDropDown2((dropdown2) => !dropdown2);
                       }}
-                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                      className={`block w-full text-left px-4 py-3 hover:bg-teal-800 ${
+                        bookno === index ? "bg-teal-800" : ""
+                      }`}
                     >
                       {item.replace("/static/media/", "").split('.')[0]}
                     </button>
