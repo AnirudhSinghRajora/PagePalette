@@ -1,5 +1,6 @@
 import React from 'react'
 import logo from '../images/logo.png'
+import ThemeToggle from '../utlis/themetoggler'
 const Navbar = () => {
   return (
     <div>
@@ -32,6 +33,9 @@ const Navbar = () => {
             </li>
             <li>
               <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-amber-400 md:p-0 dark:text-white md:dark:hover:text-amber-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Contact</a>
+            </li>
+            <li>
+              <ThemeToggle/>
             </li>
           </ul>
         </div>

@@ -1,11 +1,13 @@
-import React, { useState  } from "react";
+import React, { useState } from "react";
 import Navbar from "./utlis/navbar";
 import Home from "./pages/home";
 import Footer from "./utlis/footer";
 import Lottie from "react-lottie";
 import * as animationData from "./animations/animations.json";
+import ThemeToggle from './utlis/themetoggler'
+
 const App = () => {
-  const [youtubeID] = useState('asjdflj')
+  const [youtubeID] = useState("eGSUvfVt3k4");
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -17,6 +19,7 @@ const App = () => {
   const [page, setPage] = useState(1);
   return (
     <div className="bg-white border-gray-200 dark:bg-teal-950 dark:text-white">
+      
       <Navbar />
       {page ? (
         <div>
@@ -43,8 +46,9 @@ const App = () => {
                 <div className="link flex">
                   <a
                     className="font-semibold py-3 px-6 hover:underline"
-                   
-                    href=""
+                    href="https://www.youtube.com/watch?v=eGSUvfVt3k4"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     Watch Video Tutorial
                   </a>
@@ -52,11 +56,7 @@ const App = () => {
               </div>
             </div>
             <div className="lotte">
-              <Lottie
-                options={defaultOptions}
-                height={400}
-                width={400}
-              />
+              <Lottie options={defaultOptions} height={400} width={400} />
             </div>
           </div>
           <div className="p-6   bg-yellow-50 dark:bg-teal-900 ">
@@ -297,13 +297,28 @@ const App = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-center m-5">
-          <iframe
-            className="video"
-            title="Youtube player"
-            sandbox="allow-same-origin allow-forms allow-popups allow-scripts allow-presentation"
-            src={`https://youtube.com/embed/${youtubeID}?autoplay=0`}
-          ></iframe>
+          <div className="flex justify-center m-5 py-8">
+            <div className="w-full max-w-4xl mx-auto">
+              <h2 className="text-2xl font-bold mb-6 text-center">
+                How Page Palette Works
+              </h2>
+              <div className="relative overflow-hidden pb-[56.25%] rounded-lg shadow-lg">
+                <iframe
+                  className="absolute top-0 left-0 w-full h-full"
+                  src={`https://youtube.com/embed/${youtubeID}?autoplay=0`}
+                  title="Page Palette Tutorial"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  sandbox="allow-same-origin allow-forms allow-popups allow-scripts allow-presentation"
+                ></iframe>
+         
+              </div>
+              <p className="text-center mt-4 text-gray-600 dark:text-gray-300">
+                Learn how to use Page Palette to transform your eBook reading
+                experience
+              </p>
+            </div>
           </div>
         </div>
       ) : (

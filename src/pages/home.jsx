@@ -40,7 +40,7 @@ const Home = () => {
       function setRenderSelection(cfiRange, contents) {
         if (rendition) {
           console.log("this" + selections[0]);
-
+  
           setSelections([
             {
               text: rendition.getRange(cfiRange).toString(),
@@ -59,14 +59,14 @@ const Home = () => {
       };
     }
   }, [setSelections, rendition]);
-
+  
   useEffect(() => {
     if (send && selections.length > 0) {
-      // Added check for selections length
       async function fetchData() {
         console.log("fetching " + selections[selections.length - 1]?.text);
         let data = { inputs: selections[selections.length - 1]?.text };
-        setSendDisabled(true)
+        setSendDisabled(true);
+        
         const response = await fetch(
           `https://api-inference.huggingface.co/models/${models[modelno]}`,
           {
@@ -77,19 +77,35 @@ const Home = () => {
             body: JSON.stringify(data),
           }
         );
-
+  
         const result = await response.blob();
         const url = window.URL.createObjectURL(result);
         setImage([
           ...image,
           { url: url, text: selections[selections.length - 1]?.text },
         ]);
-        setSend(false); 
-        setSendDisabled(false)
+  
+        // Fix: Clear selection after request is sent
+        setSelections([]); 
+        rendition?.annotations.remove(selections[0]?.cfiRange, "highlight");
+  
+        setSend(false);
+        setSendDisabled(false);
       }
       fetchData();
     }
   }, [send]);
+
+  const deleteImage = (deleteURL) => {
+    setImage((prev) => {
+      const temp = prev.slice()
+      return temp.filter(({ url }) => url !== deleteURL);
+    })
+  }
+
+  const deleteAllImages = () => {
+    return window.confirm("Are you sure you want to delete all images?") && setImage([]);
+  }
 
   return (
     <div
@@ -184,15 +200,22 @@ const Home = () => {
           </div>
         </div>
         <button
-          className={`px-6 m-2 py-3 ${
-            sendDisabled ? "bg-gray-600 cursor-not-allowed" : "bg-teal-700 hover:bg-teal-800"
-          } rounded-lg text-white border border-teal-600`}
+          className="px-6 m-2 py-3 bg-yellow-600 dark:bg-teal-700 hover:bg-slate-800 hover:dark:bg-teal-800 rounded text-white flex items-center justify-center"
           onClick={() => setSend((send) => !send)}
           disabled={sendDisabled}
         >
-          send
-        </button>
-        {/* Book Selection Dropdown - Improved Styling */}
+          {sendDisabled ? (
+          <>
+              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white mr-3"></div>
+              Sending...
+          </>
+         ) : (
+        "Send"
+        )}
+      </button>
+        {/* <button className="px-6 m-2 py-3 bg-yellow-600 dark:bg-teal-700 hover:bg-slate-800 hover:dark:bg-teal-800 rounded text-white">
+          choose epub
+        </button> */}
         <div className="relative max-w-96">
           <button
             id="dropdownDefaultButton"
@@ -253,6 +276,13 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <div className="mx-9 px-6">
+        {image.length !== 0 && <button className="px-6 m-2 py-3 bg-yellow-600 dark:bg-teal-700 hover:bg-slate-800 hover:dark:bg-teal-800 rounded text-white flex items-center justify-center"
+        onClick={deleteAllImages}
+        >
+          Clear all
+        </button>}
+      </div>
       <div className="flex flex-wrap p-6 m-6">
         {image
           .slice(0)
@@ -261,12 +291,15 @@ const Home = () => {
             return (
               <div
                 key={index}
-                class="max-w-sm m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+                class="max-w-sm m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 relative"
               >
                 <a href="#">
-                  <img class="rounded-t-lg" src={url} alt="Wait for 5 min before sending another request or change api or contact Gaurav" />
+                  <img className="rounded-t-lg" src={url} alt="Wait for 5 min before sending another request or change api or contact Gaurav" />
                 </a>
-                <div class="p-5">
+                <button className="absolute text-red-600 text-3xl right-6 top-3" onClick={() => deleteImage(url)}>
+                  <img src={close} height="24px" width="24px" />
+                </button>
+                <div class="p-5 max-h-48 overflow-y-auto ">
                   <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
                     {text}
                   </p>
