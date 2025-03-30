@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ReactReader } from "react-reader";
+import { ReactReader, ReactReaderStyle } from "react-reader";
 import close from "../images/close.png";
 
 import percyjackson from "../books/percyjackson.epub"
@@ -7,8 +7,10 @@ import percyjackson from "../books/percyjackson.epub"
 import gameofthrones from "../books/gameofthrones.epub"
 import harrypotter from "../books/harrypotter.epub"
 import mahabharat from "../books/mahabharat.epub"
+import { useTheme } from "../contexts/ThemeContext";
 
 const Home = () => {
+  const { theme } = useTheme();
   const [location, setLocation] = useState(0);
   const [selections, setSelections] = useState([]);
   const [rendition, setRendition] = useState(undefined);
@@ -34,6 +36,22 @@ const Home = () => {
     gameofthrones,
     percyjackson,
   ];
+
+  function updateTheme(rendition, theme) {
+    const themes = rendition.themes
+    switch (theme) {
+      case 'dark': {
+        themes.override('color', '#fff')
+        themes.override('background', '#000')
+        break
+      }
+      default: {
+        themes.override('color', '#000')
+        themes.override('background', '#fff')
+        break
+      }
+    }
+  }
   
   useEffect(() => {
     if (rendition) {
@@ -59,6 +77,12 @@ const Home = () => {
       };
     }
   }, [setSelections, rendition]);
+
+  useEffect(() => {
+    if (rendition) {
+      updateTheme(rendition, theme)
+    }
+  }, [theme])
   
   useEffect(() => {
     if (send && selections.length > 0) {
@@ -112,6 +136,7 @@ const Home = () => {
       className="bg-white border-gray-200 dark:bg-teal-950 dark:text-white m-0"
       // style={{ height: "100vh" }}
     >
+    {selections.length>0 && (
       <div className="p-6 mx-6 rounded-xl flex justify-between bg-yellow-50 dark:bg-teal-900 ">
         <div className="mx-6">{selections[selections.length - 1]?.text}</div>
         <button
@@ -124,7 +149,7 @@ const Home = () => {
           <img src={close} class="size-11" alt="PagePallete Logo" />
         </button>
       </div>
-
+    )}
       <div style={{ height: "80vh" }} className="m-6">
         <ReactReader
           url= {epubs[bookno]} // "https://react-reader.metabits.no/files/alice.epub"
@@ -134,7 +159,9 @@ const Home = () => {
             allowPopups: true, // Adds `allow-popups` to sandbox-attribute
             allowScriptedContent: true, // Adds `allow-scripts` to sandbox-attribute
           }}
+          readerStyles={theme === 'dark' ? darkReaderTheme : lightReaderTheme}
           getRendition={(_rendition) => {
+            updateTheme(_rendition, theme)
             setRendition(_rendition);
           }}
         />
@@ -311,5 +338,51 @@ const Home = () => {
     </div>
   );
 };
+
+const lightReaderTheme = {
+  ...ReactReaderStyle,
+  readerArea: {
+    ...ReactReaderStyle.readerArea,
+    transition: undefined,
+  },
+}
+
+
+const darkReaderTheme = {
+  ...ReactReaderStyle,
+  arrow: {
+    ...ReactReaderStyle.arrow,
+    color: 'white',
+  },
+  arrowHover: {
+    ...ReactReaderStyle.arrowHover,
+    color: '#ccc',
+  },
+  readerArea: {
+    ...ReactReaderStyle.readerArea,
+    backgroundColor: '#000',
+    transition: undefined,
+  },
+  titleArea: {
+    ...ReactReaderStyle.titleArea,
+    color: '#ccc',
+  },
+  tocArea: {
+    ...ReactReaderStyle.tocArea,
+    background: '#111',
+  },
+  tocButtonExpanded: {
+    ...ReactReaderStyle.tocButtonExpanded,
+    background: '#222',
+  },
+  tocButtonBar: {
+    ...ReactReaderStyle.tocButtonBar,
+    background: '#fff',
+  },
+  tocButton: {
+    ...ReactReaderStyle.tocButton,
+    color: 'white',
+  },
+}
 
 export default Home;
