@@ -1,68 +1,96 @@
-import React from 'react';
-import logo from '../images/logo.png';
-import ThemeToggle from '../utlis/themetoggler';
-import { NavLink } from "react-router-dom";
 
-const Navbar = () => {
-  const linkClass = ({ isActive }) =>
-    `block py-2 px-3 rounded md:p-0 md:bg-transparent
-     ${isActive ? 'text-white bg-blue-700 md:text-amber-400 md:dark:text-amber-400' : 'text-gray-900 dark:text-white'}
-     hover:bg-gray-100 md:hover:bg-transparent md:hover:text-amber-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent md:dark:hover:text-amber-400`;
+import React, { useState } from "react";
+import ThemeToggle from './themetoggler';
+
+const Navbar = ({ navigateTo, currentPage }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
-    <div>
-      <nav className="bg-white border-gray-200 dark:bg-teal-950">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <NavLink className="flex items-center space-x-3 rtl:space-x-reverse">
-            <img src={logo} className="h-11" alt="PagePallete Logo" />
-          </NavLink>
+    <nav className="bg-white border-gray-200 dark:bg-teal-950 px-4 lg:px-6 py-4">
+      <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+        <div className="flex items-center">
+          <span 
+            onClick={() => navigateTo('landing')} 
+            className="self-center text-xl font-semibold whitespace-nowrap cursor-pointer dark:text-white"
+          >
+            Page Palette
+          </span>
+        </div>
+        
+        <div className="flex items-center lg:order-2">
+          <ThemeToggle />
+          
+          {/* Mobile menu button */}
           <button
-            data-collapse-toggle="navbar-default"
+            onClick={toggleMenu}
             type="button"
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            aria-controls="navbar-default"
-            aria-expanded="false"
+            className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            aria-controls="mobile-menu-2"
+            aria-expanded={isMenuOpen}
           >
             <span className="sr-only">Open main menu</span>
-            <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
+            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path>
+            </svg>
+            <svg className="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path>
             </svg>
           </button>
-          <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-            <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-teal-950 md:dark:bg-teal-950 dark:border-gray-700">
-              <li>
-                <NavLink to="/" className={linkClass}>
-                  Home
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/about" className={linkClass}>
-                  About
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/services" className={linkClass}>
-                  Services
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/pricing" className={linkClass}>
-                  Pricing
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/contact" className={linkClass}>
-                  Contact
-                </NavLink>
-              </li>
-              <li>
-                <ThemeToggle />
-              </li>
-            </ul>
-          </div>
         </div>
-      </nav>
-    </div>
+        
+        {/* Desktop navigation menu */}
+        <div className={`${isMenuOpen ? 'block' : 'hidden'} justify-between items-center w-full lg:flex lg:w-auto lg:order-1`} id="mobile-menu-2">
+          <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
+            <li>
+              <a
+                onClick={() => navigateTo('home')}
+                className={`cursor-pointer block py-2 pr-4 pl-3 ${currentPage === 'home' ? 'text-yellow-600 dark:text-yellow-500' : 'text-gray-700 dark:text-white'} rounded bg-transparent lg:p-0`}
+                aria-current="page"
+              >
+                Home
+              </a>
+            </li>
+            <li>
+              <a
+                onClick={() => navigateTo('about')}
+                className={`cursor-pointer block py-2 pr-4 pl-3 ${currentPage === 'about' ? 'text-yellow-600 dark:text-yellow-500' : 'text-gray-700 dark:text-white'} rounded lg:hover:bg-transparent lg:p-0`}
+              >
+                About
+              </a>
+            </li>
+            <li>
+              <a
+                onClick={() => navigateTo('services')}
+                className={`cursor-pointer block py-2 pr-4 pl-3 ${currentPage === 'services' ? 'text-yellow-600 dark:text-yellow-500' : 'text-gray-700 dark:text-white'} rounded lg:hover:bg-transparent lg:p-0`}
+              >
+                Services
+              </a>
+            </li>
+            <li>
+              <a
+                onClick={() => navigateTo('pricing')}
+                className={`cursor-pointer block py-2 pr-4 pl-3 ${currentPage === 'pricing' ? 'text-yellow-600 dark:text-yellow-500' : 'text-gray-700 dark:text-white'} rounded lg:hover:bg-transparent lg:p-0`}
+              >
+                Pricing
+              </a>
+            </li>
+            <li>
+              <a
+                onClick={() => navigateTo('contact')}
+                className={`cursor-pointer block py-2 pr-4 pl-3 ${currentPage === 'contact' ? 'text-yellow-600 dark:text-yellow-500' : 'text-gray-700 dark:text-white'} rounded lg:hover:bg-transparent lg:p-0`}
+              >
+                Contact
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
   );
 };
 
