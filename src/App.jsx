@@ -4,6 +4,7 @@ import Landing from "./pages/landing";
 import { AppLayout } from "./utlis/AppLayout";
 import Contact from "./pages/contact";
 import Pricing from "./pages/pricing";
+import Services from "./pages/services";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "pricing",
         element: <Pricing/>
+      },
+      {
+        path: "services",
+        element: <Services/>
       }
     ]
   }

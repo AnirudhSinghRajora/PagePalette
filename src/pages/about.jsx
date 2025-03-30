@@ -1,5 +1,6 @@
 import React from "react";
 import { FiBookOpen, FiCpu, FiImage, FiCheck } from 'react-icons/fi';
+import { NavLink } from "react-router-dom";
 
 const About = () => {
   return (
@@ -24,8 +25,8 @@ const About = () => {
         {/* How It Works Section */}
         <section className="mb-12">
           <h2 className="text-3xl font-semibold mb-4">How It Works</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-gray-100 dark:bg-teal-900 p-6 rounded-lg shadow-md flex flex-col items-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
+            <div className="bg-gray-100 dark:bg-teal-900 p-6 rounded-lg shadow-md flex flex-col items-center transform hover:-translate-y-2 hover:scale-105 transition-transform duration-300">
               <div className="mb-4">
                 <FiBookOpen className="text-4xl text-teal-600 dark:text-teal-300" />
               </div>
@@ -34,7 +35,7 @@ const About = () => {
                 Choose a passage from your eBook that you want to visualize.
               </p>
             </div>
-            <div className="bg-gray-100 dark:bg-teal-900 p-6 rounded-lg shadow-md flex flex-col items-center">
+            <div className="bg-gray-100 dark:bg-teal-900 p-6 rounded-lg shadow-md flex flex-col items-center transform hover:-translate-y-2 hover:scale-105 transition-transform duration-300">
               <div className="mb-4">
                 <FiCpu className="text-4xl text-teal-600 dark:text-teal-300" />
               </div>
@@ -43,7 +44,7 @@ const About = () => {
                 Select your preferred AI model to generate the illustration.
               </p>
             </div>
-            <div className="bg-gray-100 dark:bg-teal-900 p-6 rounded-lg shadow-md flex flex-col items-center">
+            <div className="bg-gray-100 dark:bg-teal-900 p-6 rounded-lg shadow-md flex flex-col items-center transform hover:-translate-y-2 hover:scale-105 transition-transform duration-300">
               <div className="mb-4">
                 <FiImage className="text-4xl text-teal-600 dark:text-teal-300" />
               </div>
@@ -103,12 +104,7 @@ const About = () => {
             <p className="text-lg text-gray-700 dark:text-gray-200 mb-6">
               Experience the future of reading with Page Palette. Start transforming your eBooks today!
             </p>
-            <a
-              href="/signup"
-              className="bg-teal-600 text-white px-8 py-4 rounded-md font-semibold shadow-lg text-lg transform hover:scale-105 transition-transform duration-300"
-            >
-              Get Started
-            </a>
+            <NavLink to="/" className="bg-teal-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-teal-700 transition duration-300">Get Started</NavLink>
           </div>
         </section>
       </div>
